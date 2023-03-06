@@ -1,4 +1,7 @@
 ﻿@page "/"
+@using MQTTnet
+@using MQTTnet.Client
+@using MQTTnet.Client.Options
 
 <PageTitle>Index</PageTitle>
 
@@ -7,3 +10,19 @@
 Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
+
+@code
+{
+    
+
+    protected override async Task OnInitializedAsync()
+    {
+        MqttFactory factory = new MqttFactory();
+        IMqttClient mqttClient = factory.CreateMqttClient();
+        IMqttClientOptions options = new MqttClientOptionsBuilder()
+            .WithWebSocketServer("127.0.0.1:1883") 
+            .Build();
+        await base.OnInitializedAsync();
+        await mqttClient.ConnectAsync(options, CancellationToken.None);
+    }
+}
