@@ -1,12 +1,24 @@
-using System;
 using System.Text;
+using Microsoft.AspNetCore.SignalR;
 using MQTTnet.Server;
 
-namespace mqttASP
+namespace SobaBlazor.Server.MqttHandler
 {
-    public class Handlers
+    public interface IHandlers
     {
-        public static void OnNewMessage(MqttApplicationMessageInterceptorContext context)
+        static abstract void OnNewMessage(MqttApplicationMessageInterceptorContext context);
+
+
+    }
+    public class Handlers :IHandlers, IHostedService
+    {
+        private static IHubContext<HubHandler> _hubcontext;
+
+        public Handlers(IHubContext<HubHandler> hubcontext)
+        {
+            _hubcontext = hubcontext;
+        }
+        public async static void OnNewMessage(MqttApplicationMessageInterceptorContext context)
         {
             // Convert Payload to string
             var payload = context.ApplicationMessage?.Payload == null ? null : Encoding.UTF8.GetString(context.ApplicationMessage?.Payload);
@@ -20,9 +32,22 @@ namespace mqttASP
                 payload,
                 context.ApplicationMessage?.QualityOfServiceLevel,
                 context.ApplicationMessage?.Retain);
-            
+            await _hubcontext.Clients.All.SendAsync("ReceiveMessage", "message");
+
+
+
 
         }
-        
+
+
+        public Task StartAsync(CancellationToken cancellationToken)
+        {
+            return Task.CompletedTask;
+        }
+
+        public Task StopAsync(CancellationToken cancellationToken)
+        {
+            return Task.CompletedTask;
+        }
     }
 }

@@ -1,7 +1,8 @@
-using mqttASP;
-using MQTTnet.AspNetCore;
+using Microsoft.AspNetCore.SignalR;
 using MQTTnet.AspNetCore.Extensions;
 using MQTTnet.Protocol;
+using SobaBlazor.Server;
+using SobaBlazor.Server.MqttHandler;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,13 +14,13 @@ builder.WebHost.UseKestrel(
     });
 
 // Add services to the container.
-
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-
-builder.Services.AddMqttWebSocketServerAdapter();
+builder.Services.AddSignalR();
+builder.Services.AddSingleton<HubHandlerBase, HubHandler>();
+builder.Services.AddHostedService<Handlers>();
 builder.Services
-    .AddHostedMqttServer(mqttServer => mqttServer.WithoutDefaultEndpoint().WithApplicationMessageInterceptor(Handlers.OnNewMessage).WithConnectionValidator(c =>
+    .AddHostedMqttServer(mqttServer => mqttServer.WithoutDefaultEndpoint().WithApplicationMessageInterceptor(  Handlers.OnNewMessage).WithConnectionValidator(c =>
     {
         
         Console.WriteLine(c);
@@ -30,6 +31,9 @@ builder.Services
     .AddMqttConnectionHandler()
                 
     .AddConnections();
+
+builder.Services.AddMqttWebSocketServerAdapter();
+builder.Services.AddMqttTcpServerAdapter();
 
 var app = builder.Build();
 
@@ -60,9 +64,13 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseHttpsRedirection();
+
 
 app.MapRazorPages();
 app.MapControllers();
 app.MapFallbackToFile("index.html");
+app.MapHub<HubHandler>("/hub");
+app.UseMqttEndpoint(path:"/mqtt");
 
 app.Run();

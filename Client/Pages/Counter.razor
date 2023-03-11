@@ -1,18 +1,131 @@
 ﻿@page "/counter"
 
-<PageTitle>Counter</PageTitle>
 
-<h1>Counter</h1>
+@using SobaBlazor.Client.JsInterop
 
-<p role="status">Current count: @currentCount</p>
+@inject MqttJsInterop mqttInterop
 
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<div class="container">
+    <div class="row mx-lg-n5">
+        <div class="col py-3 px-lg-5 border bg-light">
+            Enter your name: <input type="text" disabled="@(IsDisabled)" @bind="@Name" />
+        </div>
+    </div>
+    <div class="row mx-lg-n5">
+        <div class="col py-3 px-lg-5">
+            @* <button class="btn btn-primary btn-sm" @onclick="@CreateClientAndConnect" disabled="@(IsDisabled)">Connect</button> *@
+            <button class="btn btn-danger btn-sm" @onclick="@Disconnect" disabled="@(!IsDisabled)">Disconnect</button>
+        </div>
+    </div>
+    <div class="row mx-lg-n5">
+        <div class="col py-3 px-lg-5">
+            <p>Connection Status: <strong>@ConnectionStatus</strong></p>
+        </div>
+    </div>
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Type your message here" @bind="@Message" disabled="@(!IsDisabled)" />
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" @onclick="@PublishMessage" disabled="@(!IsDisabled)">Send</button>
+        </div>
+    </div>
+    <div class="row">
+        @if (rabbitData == null && rabbitData?.Count != 0)
+        {
+            <p><em>Awaiting data...</em></p>
+        }
+        else
+        {
+            <table class="table">
+                <tbody>
+                    @foreach (var data in rabbitData)
+                    {
+                        <tr>
+                            <td width="100px">@data.Received</td>
+                            <td>@data.Data</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
 
 @code {
-    private int currentCount = 0;
 
-    private void IncrementCount()
+    private const string _rabbitMQHost = "localhost";
+    private const int _rabbitMQPort = 5072;
+
+    private const string _rabbitMQUsername = "guest";
+    private const string _rabbitMQPassword = "guest";
+    private const string _topic = "esp/bme680/temperature";
+
+    private List<PayloadData> rabbitData { get; set; }
+    protected string ConnectionStatus { get; set; }
+    protected string Name { get; set; } = $"User1";
+    protected bool IsDisabled { get; set; }
+    protected string Message { get; set; }
+
+    protected override void OnInitialized()
     {
-        currentCount++;
+        ConnectionStatus = "Not connected";
+
+        JsInterop.OnConnectionChanged.Action = value =>
+        {
+            ConnectionStatus = $"{value}";
+            this.StateHasChanged();
+        };
+        IsDisabled = true;
+        this.StateHasChanged();
+
+        mqttInterop.CreateClient(wsHost: _rabbitMQHost, wsPort: _rabbitMQPort, clientId: Name);
+        mqttInterop.Connect(topic: _topic, qos: 1, timeout: 3, username: _rabbitMQUsername, password: _rabbitMQPassword);
+
+
+        JsInterop.OnMessageReceived.Action = (key, data) =>
+        {
+            if (rabbitData == null)
+            {
+                rabbitData = new List<PayloadData>();
+            }
+
+            var rabbitDataItem = new PayloadData(key, data);
+            rabbitData.Insert(0, rabbitDataItem);
+
+            this.StateHasChanged();
+        };
+    }
+    
+
+    public void Disconnect()
+    {
+        mqttInterop.Disconnect();
+        IsDisabled = false;
+        this.StateHasChanged();
+    }
+
+    public void PublishMessage()
+    {
+        if (!string.IsNullOrWhiteSpace(Message))
+        {
+            string payload = $"{Name} : {Message}";
+            mqttInterop.Publish(topic: _topic, payload: payload, qos: 0, retained: false);
+            Message = null;
+            this.StateHasChanged();
+        }
+    }
+
+    class PayloadData
+    {
+        public string Key { get; set; }
+        public string Data { get; set; }
+        public string Received { get; set; }
+
+        public PayloadData(string key, string data)
+        {
+            this.Key = key;
+            this.Data = data;
+            this.Received = DateTime.Now.ToString("HH:mm:ss");
+        }
     }
 }
+

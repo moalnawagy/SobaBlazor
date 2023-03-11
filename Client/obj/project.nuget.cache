@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "qlcW758xlINGc0nGzH8rEUwKmEtCJKzIMVXBfPvlRv88XgoablY5gClXGVYRtvaPA1k+1T2BzGYzWt7wnDg1Uw==",
+  "dgSpecHash": "MIMskLqRhNj1H/6oDJ/1YYT9XrojB98jMTDrgT7r33OumGjMlWwxnutVXd/Aw03jF8dnOl/SaArWd5aBOuJH9Q==",
   "success": true,
   "projectFilePath": "/home/alnawagy/RiderProjects/SobaBlazor/Client/SobaBlazor.Client.csproj",
   "expectedPackageFiles": [
@@ -29,6 +29,8 @@
     "/home/alnawagy/.nuget/packages/microsoft.jsinterop/7.0.1/microsoft.jsinterop.7.0.1.nupkg.sha512",
     "/home/alnawagy/.nuget/packages/microsoft.jsinterop.webassembly/7.0.1/microsoft.jsinterop.webassembly.7.0.1.nupkg.sha512",
     "/home/alnawagy/.nuget/packages/mqttnet/3.1.2/mqttnet.3.1.2.nupkg.sha512",
+    "/home/alnawagy/.nuget/packages/mqttnet.extensions.managedclient/3.1.2/mqttnet.extensions.managedclient.3.1.2.nupkg.sha512",
+    "/home/alnawagy/.nuget/packages/newtonsoft.json/13.0.3/newtonsoft.json.13.0.3.nupkg.sha512",
     "/home/alnawagy/.nuget/packages/system.io.pipelines/7.0.0/system.io.pipelines.7.0.0.nupkg.sha512",
     "/home/alnawagy/.nuget/packages/system.text.encodings.web/7.0.0/system.text.encodings.web.7.0.0.nupkg.sha512",
     "/home/alnawagy/.nuget/packages/system.text.json/7.0.0/system.text.json.7.0.0.nupkg.sha512",
