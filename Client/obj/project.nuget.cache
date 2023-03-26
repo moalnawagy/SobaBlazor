@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "MIMskLqRhNj1H/6oDJ/1YYT9XrojB98jMTDrgT7r33OumGjMlWwxnutVXd/Aw03jF8dnOl/SaArWd5aBOuJH9Q==",
+  "dgSpecHash": "w4zpfW0G9KZpFc6mu2Hfs0dH57PdTHs4THQywSNNeBet/5ijp3tBjc5FVadXlyZ7dslUUlt5jqF/N86Vsx8Jtw==",
   "success": true,
   "projectFilePath": "/home/alnawagy/RiderProjects/SobaBlazor/Client/SobaBlazor.Client.csproj",
   "expectedPackageFiles": [
@@ -28,13 +28,13 @@
     "/home/alnawagy/.nuget/packages/microsoft.extensions.primitives/7.0.0/microsoft.extensions.primitives.7.0.0.nupkg.sha512",
     "/home/alnawagy/.nuget/packages/microsoft.jsinterop/7.0.1/microsoft.jsinterop.7.0.1.nupkg.sha512",
     "/home/alnawagy/.nuget/packages/microsoft.jsinterop.webassembly/7.0.1/microsoft.jsinterop.webassembly.7.0.1.nupkg.sha512",
-    "/home/alnawagy/.nuget/packages/mqttnet/3.1.2/mqttnet.3.1.2.nupkg.sha512",
+    "/home/alnawagy/.nuget/packages/mqttnet/4.1.4.563/mqttnet.4.1.4.563.nupkg.sha512",
     "/home/alnawagy/.nuget/packages/mqttnet.extensions.managedclient/3.1.2/mqttnet.extensions.managedclient.3.1.2.nupkg.sha512",
     "/home/alnawagy/.nuget/packages/newtonsoft.json/13.0.3/newtonsoft.json.13.0.3.nupkg.sha512",
     "/home/alnawagy/.nuget/packages/system.io.pipelines/7.0.0/system.io.pipelines.7.0.0.nupkg.sha512",
     "/home/alnawagy/.nuget/packages/system.text.encodings.web/7.0.0/system.text.encodings.web.7.0.0.nupkg.sha512",
     "/home/alnawagy/.nuget/packages/system.text.json/7.0.0/system.text.json.7.0.0.nupkg.sha512",
-    "/home/alnawagy/.nuget/packages/microsoft.netcore.app.runtime.mono.browser-wasm/7.0.1/microsoft.netcore.app.runtime.mono.browser-wasm.7.0.1.nupkg.sha512"
+    "/home/alnawagy/.nuget/packages/microsoft.netcore.app.runtime.mono.browser-wasm/7.0.4/microsoft.netcore.app.runtime.mono.browser-wasm.7.0.4.nupkg.sha512"
   ],
   "logs": []
 }

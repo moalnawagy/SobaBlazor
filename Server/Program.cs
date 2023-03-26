@@ -1,9 +1,10 @@
-using Microsoft.AspNetCore.SignalR;
+using app.Invocables;
 using MQTTnet.AspNetCore.Extensions;
 using MQTTnet.Protocol;
 using SobaBlazor.Server;
 using SobaBlazor.Server.MqttHandler;
-
+using SobaBlazor.Server.Services;
+using Coravel;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.WebHost.UseKestrel(
@@ -16,9 +17,12 @@ builder.WebHost.UseKestrel(
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+builder.Services.AddScheduler();
+builder.Services.AddTransient<WriteRandomPlaneAltitudeInvocable>();
 builder.Services.AddSignalR();
 builder.Services.AddSingleton<HubHandlerBase, HubHandler>();
 builder.Services.AddHostedService<Handlers>();
+builder.Services.AddSingleton<InfluxDBService>();
 builder.Services
     .AddHostedMqttServer(mqttServer => mqttServer.WithoutDefaultEndpoint().WithApplicationMessageInterceptor(  Handlers.OnNewMessage).WithConnectionValidator(c =>
     {
@@ -73,4 +77,10 @@ app.MapFallbackToFile("index.html");
 app.MapHub<HubHandler>("/hub");
 app.UseMqttEndpoint(path:"/mqtt");
 
+// ((IApplicationBuilder)app).ApplicationServices.UseScheduler(scheduler =>
+// {
+//     scheduler
+//         .Schedule<WriteRandomPlaneAltitudeInvocable>()
+//         .EveryFiveSeconds();
+// });
 app.Run();

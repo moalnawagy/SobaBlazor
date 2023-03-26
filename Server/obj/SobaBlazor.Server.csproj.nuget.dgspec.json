@@ -44,7 +44,7 @@
           "dependencies": {
             "MQTTnet": {
               "target": "Package",
-              "version": "[3.1.2, )"
+              "version": "[4.1.4.563, )"
             },
             "MQTTnet.Extensions.ManagedClient": {
               "target": "Package",
@@ -78,7 +78,7 @@
           "downloadDependencies": [
             {
               "name": "Microsoft.NETCore.App.Runtime.Mono.browser-wasm",
-              "version": "[7.0.1, 7.0.1]"
+              "version": "[7.0.4, 7.0.4]"
             }
           ],
           "frameworkReferences": {
@@ -86,7 +86,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/7.0.101/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/7.0.202/RuntimeIdentifierGraph.json"
         }
       },
       "runtimes": {
@@ -136,9 +136,17 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "Coravel": {
+              "target": "Package",
+              "version": "[4.2.1, )"
+            },
+            "InfluxDB.Client": {
+              "target": "Package",
+              "version": "[4.11.0, )"
+            },
             "MQTTnet": {
               "target": "Package",
-              "version": "[3.1.2, )"
+              "version": "[4.1.4.563, )"
             },
             "MQTTnet.AspNetCoreEx": {
               "target": "Package",
@@ -180,7 +188,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/7.0.101/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/7.0.202/RuntimeIdentifierGraph.json"
         }
       }
     },
@@ -233,7 +241,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/7.0.101/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/7.0.202/RuntimeIdentifierGraph.json"
         }
       }
     }
